@@ -56,22 +56,30 @@ fun mineLocation(grid: Array<Array<Char>>, numMines: Int, firstX: Int, firstY: I
 
 fun printGrid(grid: Array<Array<Char>>, revealed: Array<Array<Boolean>>, flags: Array<Array<Boolean>>) {
     //adjust spacing for readability
-    val spacing = 3
+    // val spacing = 3
+    //print col no
+    print("   ")
+    for (col in grid[0].indices) {
+        print(" ${col + 1} ".padStart(3))
+    }
+    println()
 
+    //print row no
     for (row in grid.indices) {
+        print("${row + 1}".padStart(2) + " ") //row no
         for (col in grid[0].indices) {
             when {
-                flags[row][col] -> print(" F ".padStart(spacing))
+                flags[row][col] -> print(" F ".padStart(3))
                 revealed[row][col] -> {
                     if (grid[row][col] == '.') {
                         //reveal empty
                         print("   ")
                     } else {
                         //reveal number
-                        print(" ${grid[row][col]} ".padStart(spacing))
+                        print(" ${grid[row][col]} ".padStart(3))
                     } 
                 } 
-                else -> print(" . ".padStart(spacing)) //not revealed
+                else -> print(" . ".padStart(3)) //not revealed
             }
         }
         //move to next row 
@@ -125,7 +133,7 @@ fun mineLogic(grid: Array<Array<Char>>) {
 
 fun revealCell(grid: Array<Array<Char>>, revealed: Array<Array<Boolean>>, x: Int, y:Int, height: Int, width: Int): Boolean {
     //out of grid or alrdy revealed, do nothing 
-    if(x < 0 || x >= height || y < 0 || y >= width || revealed[x][y]) return true
+    if(x < 0 || x >= height || y < 0 || y >= width || revealed[x][y] || grid[x][y] == 'F') return true
 
     //mark revealed cells 
     revealed[x][y] = true 
